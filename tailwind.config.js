@@ -5,7 +5,7 @@ module.exports = {
     extend: {
       colors: {
         star: '#fc0', // Example primary color
-        secondary: '#64748B', // Example secondary color
+        secondary: '#71717a', // Example secondary color
         danger: '#282828',
         // Add other custom colors here
       },
