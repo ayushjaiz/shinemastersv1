@@ -1,112 +1,205 @@
 import axios from "axios";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { Link, useLocation } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const SignUpPage = () => {
+  const location = useLocation();
+
+  const isSignupForm = location.pathname === "/signup";
+
   const name = useRef<HTMLInputElement>(null);
   const email = useRef<HTMLInputElement>(null);
   const password = useRef<HTMLInputElement>(null);
 
-  const handleButtonClick = async () => {
-    console.log("Request sent");
-    const formData = {
-      username: name.current!.value,
-      email: email.current!.value,
-      password: password.current!.value,
-      password_confirmation: password.current!.value,
-    };
+  const [isPasswordVisible, setIsPasswordVisible] = useState<Boolean>(false);
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible(!isPasswordVisible);
+  };
 
-    const promise = axios
-      .post("http://localhost:4000/auth/signup", formData)
-      .then((response) => {
-        console.log("Server response:", response.data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        throw error;
-      });
+  const handleButtonClick = async () => {
+    let promise: Promise<void>;
+
+    if (isSignupForm) {
+      const formData = {
+        username: name.current!.value,
+        email: email.current!.value,
+        password: password.current!.value,
+        password_confirmation: password.current!.value,
+      };
+
+      promise = axios
+        .post("http://localhost:4000/auth/signup", formData)
+        .then((response) => {
+          console.log("Server response:", response.data);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          throw error;
+        });
+    } else {
+      const formData = {
+        email: email.current!.value,
+        password: password.current!.value,
+      };
+
+      promise = axios
+        .post("http://localhost:4000/auth/login", formData)
+        .then((response) => {
+          console.log("Server response:", response.data);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          throw error;
+        });
+    }
 
     toast.promise(promise, {
       loading: "Submitting...",
-      success: "Successfully registered!",
-      error: "Error registering!",
+      success: isSignupForm
+        ? "Successfully registered!"
+        : "Successfully logged in!",
+      error: isSignupForm ? "Error registering!" : "Error logging in!",
     });
   };
 
   return (
     <div className="flex h-screen">
-      <div className="bg-star w-1/2 h-full"></div>
+      <div className=" bg-blue-700 w-1/2 h-full"></div>
       <div className="w-1/2 h-full flex justify-center items-center">
-        <div className="border bg-transparent rounded-lg w-1/2 flex flex-col gap-6 p-6">
-          <div className="flex flex-col justify-center h-16">
-            <h3 className="text-2xl font-semibold tracking-tight">
-              Create an Account
-            </h3>
-            <p className="text-sm text-slate-400">
-              Enter you credentials to create an account
-            </p>
-          </div>
-
-          <div className="grid gap-4">
-            <div className="grid gap-2">
-              <label
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                htmlFor="name"
-              >
-                Name
-              </label>
-              <input
-                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                id="name"
-                placeholder="JohnDoe"
-                type="text"
-                ref={name}
-              />
+        <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+          <form className="space-y-6">
+            <div className="flex flex-col justify-center h-16">
+              <h3 className="text-2xl font-medium text-gray-900 dark:text-white">
+                {isSignupForm ? "Create an Account" : "Login"}
+              </h3>
+              {isSignupForm && (
+                <p className=" text-sm font-medium text-gray-500 dark:text-gray-300 pt-1">
+                  Enter you credentials to create an account
+                </p>
+              )}
             </div>
 
-            <div className="grid gap-2">
+            {isSignupForm && (
+              <div>
+                <label
+                  htmlFor="name"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Name
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                  placeholder="Ayush Jaiswal"
+                  required
+                  ref={name}
+                />
+              </div>
+            )}
+
+            {/* Email */}
+            <div>
               <label
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 htmlFor="email"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
                 Email
               </label>
               <input
-                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                id="email"
-                placeholder="m@example.com"
                 type="email"
+                name="email"
+                id="email"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                placeholder="m@example.com"
+                required
                 ref={email}
+                autoComplete="off"
               />
             </div>
 
-            <div className="grid gap-2">
+            {/* Password */}
+            <div>
               <label
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 htmlFor="password"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
                 Password
               </label>
-              <input
-                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                id="password"
-                placeholder="m@example.com"
-                type="password"
-                ref={password}
-              />
-            </div>
-          </div>
 
-          <button
-            className="inline-flex items-center justify-center rounded-md
-                    text-sm font-medium transition-colors 
-                    focus-visible:outline-none 
-                    focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none d
-                    isabled:opacity-5 h-9 px-4 py-2 w-full bg-black text-white"
-            onClick={handleButtonClick}
-          >
-            Create account
-          </button>
+              <div className="relative">
+                <input
+                  autoComplete="off"
+                  type={isPasswordVisible ? "text" : "password"}
+                  name="password"
+                  id="password"
+                  ref={password}
+                  placeholder="••••••••"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                  required
+                />
+                <span
+                  onClick={togglePasswordVisibility}
+                  className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
+                >
+                  <FontAwesomeIcon
+                    className=" text-gray-500 dark:text-gray-300"
+                    icon={isPasswordVisible ? faEyeSlash : faEye}
+                  />
+                </span>
+              </div>
+            </div>
+
+            {!isSignupForm && (
+              <div className="flex items-start">
+                <div className="flex items-start">
+                  <div className="flex items-center h-5">
+                    <input
+                      id="remember"
+                      type="checkbox"
+                      value=""
+                      className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
+                      required
+                    />
+                  </div>
+                  <label
+                    htmlFor="remember"
+                    className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  >
+                    Remember me
+                  </label>
+                </div>
+                <a
+                  href="#"
+                  className="ms-auto text-sm text-blue-700 hover:underline dark:text-blue-500"
+                >
+                  Lost Password?
+                </a>
+              </div>
+            )}
+
+            <button
+              type="button"
+              onClick={handleButtonClick}
+              className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              {isSignupForm ? "Create an Account" : "Login"}
+            </button>
+
+            <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
+              {isSignupForm ? "Already registered? " : "Not Registered? "}
+              <Link
+                to={isSignupForm ? "/login" : "/signup"}
+                className="text-blue-700 hover:underline dark:text-blue-500"
+              >
+                {isSignupForm ? "Login" : "Create an Account"}
+              </Link>
+            </div>
+          </form>
         </div>
       </div>
       <Toaster />

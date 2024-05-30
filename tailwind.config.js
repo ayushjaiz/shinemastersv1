@@ -1,6 +1,9 @@
 // tailwind.config.js
 module.exports = {
-  content: ["./**/*.{html,ts,tsx}"],
+  content: [
+    "./**/*.{html,ts,tsx}",
+    "node_modules/flowbite-react/lib/esm/**/*.js",
+  ],
   theme: {
     extend: {
       colors: {
@@ -11,5 +14,7 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('flowbite/plugin'),
+  ],
 }
