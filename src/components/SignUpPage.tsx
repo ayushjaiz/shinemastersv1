@@ -1,9 +1,10 @@
 import axios from "axios";
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { Link, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import UserContext from "../context/UserContext";
 
 const SignUpPage = () => {
   const location = useLocation();
@@ -19,6 +20,8 @@ const SignUpPage = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
+  const { user, setUser } = useContext(UserContext);
+
   const handleButtonClick = async () => {
     let promise: Promise<void>;
 
@@ -32,8 +35,13 @@ const SignUpPage = () => {
 
       promise = axios
         .post("http://localhost:4000/auth/signup", formData)
-        .then((response) => {
-          console.log("Server response:", response.data);
+        .then(({ data }) => {
+          console.log("Server response:", data);
+
+          setUser({
+            name: data.user.username,
+            email: data.user.email,
+          });
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -47,8 +55,12 @@ const SignUpPage = () => {
 
       promise = axios
         .post("http://localhost:4000/auth/login", formData)
-        .then((response) => {
-          console.log("Server response:", response.data);
+        .then(({ data }) => {
+          console.log("Server response:", data);
+          setUser({
+            name: data.user.username,
+            email: data.user.email,
+          });
         })
         .catch((error) => {
           console.error("Error:", error);

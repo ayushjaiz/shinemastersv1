@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
@@ -6,9 +6,13 @@ import Footer from "./components/Footer";
 import Body from "./components/Body";
 import SignUpPage from "./components/SignUpPage";
 import { Toaster } from "react-hot-toast";
-import PrivateRoute from "./components/PrivateRoute"; // Assuming you have a PrivateRoute component
+//
+import UserContext from "./context/UserContext";
 
-// AuthContext.js - Assume this file contains the authentication context setup
+type User = {
+  name: string;
+  email: string;
+};
 
 const AppLayout = () => {
   return (
@@ -22,14 +26,24 @@ const AppLayout = () => {
 };
 
 const App = () => {
+  const [user, setUser] = useState<User | null>(null);
+
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<AppLayout />} />
-        <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/login" element={<SignUpPage />} />
-        {/* <PrivateRoute path="/browse" element={<BrowsePage />} /> Protected route */}
-      </Routes>
+      <UserContext.Provider
+        value={{
+          user: user,
+          setUser: setUser,
+        }}
+      >
+        <Routes>
+          <Route path="/" element={<AppLayout />} />
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/login" element={<SignUpPage />} />
+          {/* <PrivateRoute path="/browse" element={<BrowsePage />} /> Protected route */}
+        </Routes>
+        
+      </UserContext.Provider>
     </BrowserRouter>
   );
 };
