@@ -1,18 +1,19 @@
-import React, { useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Body from "./components/Body";
-import SignUpPage from "./components/SignUpPage";
+import SignUpPage from "./pages/SignUpPage";
 import { Toaster } from "react-hot-toast";
-//
-import UserContext from "./context/UserContext";
+import ProtectedRoute from "./pages/ProtectedRoute";
+import BrowsePage from "./pages/BrowsePage";
+import { Provider } from "react-redux";
+import appStore from "./store/appStore";
 
-type User = {
-  name: string;
-  email: string;
-};
+// import { Provider } from "react-redux";
+// import { PersistGate } from "redux-persist/integration/react";
+// import { store, persistor } from "./store/appStore";
 
 const AppLayout = () => {
   return (
@@ -26,25 +27,20 @@ const AppLayout = () => {
 };
 
 const App = () => {
-  const [user, setUser] = useState<User | null>(null);
 
   return (
-    <BrowserRouter>
-      <UserContext.Provider
-        value={{
-          user: user,
-          setUser: setUser,
-        }}
-      >
+    <Provider store={appStore}>
+      <BrowserRouter>
         <Routes>
           <Route path="/" element={<AppLayout />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/login" element={<SignUpPage />} />
-          {/* <PrivateRoute path="/browse" element={<BrowsePage />} /> Protected route */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="/browse" element={<BrowsePage />} />
+          </Route>
         </Routes>
-        
-      </UserContext.Provider>
-    </BrowserRouter>
+      </BrowserRouter>
+    </Provider>
   );
 };
 

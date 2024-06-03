@@ -4,10 +4,13 @@ import toast, { Toaster } from "react-hot-toast";
 import { Link, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import UserContext from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
+import { UseDispatch, useDispatch } from "react-redux";
+import { User, addUser } from "../store/reducers/userSlice";
 
 const SignUpPage = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const isSignupForm = location.pathname === "/signup";
 
@@ -20,7 +23,7 @@ const SignUpPage = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
-  const { user, setUser } = useContext(UserContext);
+  const dispatch = useDispatch();
 
   const handleButtonClick = async () => {
     let promise: Promise<void>;
@@ -34,14 +37,24 @@ const SignUpPage = () => {
       };
 
       promise = axios
-        .post("http://localhost:4000/auth/signup", formData)
+        .post("http://localhost:4000/auth/signup", formData, {
+          withCredentials: true,
+        })
         .then(({ data }) => {
           console.log("Server response:", data);
 
-          setUser({
+          console.log("Signup", data.user.username);
+
+          const userObj: User = {
             name: data.user.username,
             email: data.user.email,
-          });
+          };
+
+          console.log("obj", userObj);
+
+          dispatch(addUser(userObj));
+
+          navigate("/browse");
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -54,13 +67,24 @@ const SignUpPage = () => {
       };
 
       promise = axios
-        .post("http://localhost:4000/auth/login", formData)
+        .post("http://localhost:4000/auth/login", formData, {
+          withCredentials: true,
+        })
         .then(({ data }) => {
           console.log("Server response:", data);
-          setUser({
+
+          console.log("Login", data.user.username);
+
+          const userObj: User = {
             name: data.user.username,
             email: data.user.email,
-          });
+          };
+
+          console.log("obj", userObj);
+
+          dispatch(addUser(userObj));
+
+          navigate("/browse");
         })
         .catch((error) => {
           console.error("Error:", error);
