@@ -7,6 +7,7 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { UseDispatch, useDispatch } from "react-redux";
 import { User, addUser } from "../store/reducers/userSlice";
+import { setToken } from "../store/reducers/authSlice";
 
 const SignUpPage = () => {
   const location = useLocation();
@@ -81,6 +82,23 @@ const SignUpPage = () => {
           };
 
           console.log("obj", userObj);
+
+          // const jwtCookie = document.cookie
+          //   .split("; ")
+          //   .find((row) => row.startsWith("jwt="));
+
+          // if (jwtCookie) {
+          //   // Extract token from cookie
+          //   const token = jwtCookie.split("=")[1];
+
+          //   console.log("jwt from signup", token);
+
+          //   // Dispatch action to set the token in Redux state or wherever needed
+          //   dispatch(setToken(token));
+          // }
+
+          // const cookies = document.cookie;
+          // console.log("cookie", cookies);
 
           dispatch(addUser(userObj));
 

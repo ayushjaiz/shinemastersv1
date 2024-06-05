@@ -1,19 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Header from "../components/Header";
+import CategoriesSection from "../components/CategoriesSection";
+import SuggestedSection, { ProfileType } from "../components/ProfileList";
 
 const BrowsePage = () => {
   return (
     <>
-      <div className="">BrowsePage</div>
-      <li>
-        <Link
-          to="/"
-          className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500"
-          aria-current="page"
-        >
-          Home
-        </Link>
-      </li>
+      <Header />
+      <div className="px-8">
+        <CategoriesSection />
+        <SuggestedSection profileType={ProfileType.Suggested} />
+        <SuggestedSection profileType={ProfileType.Garderner} />
+        <SuggestedSection profileType={ProfileType.Painter} />
+        <SuggestedSection profileType={ProfileType.Sweeper} />
+      </div>
     </>
   );
 };

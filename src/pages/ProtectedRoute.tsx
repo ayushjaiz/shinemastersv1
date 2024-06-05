@@ -4,6 +4,7 @@ import { Route, Navigate, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { AuthState } from "../store/reducers/authSlice";
 import { RootState } from "../store/appStore";
+import { User, UserState } from "../store/reducers/userSlice";
 
 interface ProtectedRouteProps {
   children?: ReactNode;
@@ -11,13 +12,11 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 
-  const token= useSelector((state: RootState) => state.auth.token);
-  const isAuthenticated: Boolean = token ? true : true; 
-
-  console.log("Protected", token);
+  const user: User | null = useSelector((state:RootState) => state.user.user)
+  const isAuthenticated: Boolean = user ? true : false; 
 
   if (!isAuthenticated) {
-    return <Navigate to={"/login"} />;
+    return <Navigate to={"/login"} replace/>;
   }
 
   return children ? children : <Outlet />;
