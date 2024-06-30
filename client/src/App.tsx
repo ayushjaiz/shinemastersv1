@@ -7,7 +7,7 @@ import Body from "./components/Body";
 import SignUpPage from "./pages/SignUpPage";
 import { Toaster } from "react-hot-toast";
 import ProtectedRoute from "./pages/ProtectedRoute";
-import BrowsePage from "./pages/BrowsePage";
+import BrowsePage from "./pages/browse/BrowsePage";
 // import { Provider } from "react-redux";
 
 import { Provider } from "react-redux";

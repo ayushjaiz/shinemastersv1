@@ -20,29 +20,29 @@ const ProfileList = ({ profileType }: ProfileListProps) => {
         <h2 className="text-lg text-primary font-bold capitalize max-2xl:text-base __className_153980">
           {profileType === ProfileType.Suggested
             ? "Only For You"
-            : `Top ${ProfileType[profileType] + 's'}`}
+            : `Top ${ProfileType[profileType] + "s"}`}
         </h2>
       </div>
 
       <div className="flex gap-10">
         <div className="flex gap-10 pt-5 pb-8">
-          <ProfileCard displayType={profileType === ProfileType.Suggested}/>
+          <ProfileCard displayType={profileType === ProfileType.Suggested} />
         </div>
 
         <div className="flex gap-10 pt-5 pb-8">
-          <ProfileCard displayType={profileType === ProfileType.Suggested}/>
+          <ProfileCard displayType={profileType === ProfileType.Suggested} />
         </div>
 
         <div className="flex gap-10 pt-5 pb-8">
-          <ProfileCard displayType={profileType === ProfileType.Suggested}/>
+          <ProfileCard displayType={profileType === ProfileType.Suggested} />
         </div>
 
         <div className="flex gap-10 pt-5 pb-8">
-          <ProfileCard displayType={profileType === ProfileType.Suggested}/>
+          <ProfileCard displayType={profileType === ProfileType.Suggested} />
         </div>
 
         <div className="flex gap-10 pt-5 pb-8">
-          <ProfileCard displayType={profileType === ProfileType.Suggested}/>
+          <ProfileCard displayType={profileType === ProfileType.Suggested} />
         </div>
       </div>
     </div>

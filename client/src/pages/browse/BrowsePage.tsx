@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Header from "../components/Header";
-import CategoriesSection from "../components/CategoriesSection";
-import SuggestedSection, { ProfileType } from "../components/ProfileList";
+import Header from "../../components/Header";
+import CategoriesSection from "./CategoriesSection";
+import SuggestedSection, { ProfileType } from "./ProfileList";
 
 const BrowsePage = () => {
   return (
