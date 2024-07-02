@@ -1,5 +1,3 @@
-import pool from "../config/dbConfig";
-
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient()
 
@@ -8,37 +6,28 @@ interface User {
     username: string;
     email: string;
     password: string;
-    isWorker?: boolean;
     createdAt?: Date;
-    updatedAt?: Date;
 }
 
-/**
- * Manages user-related operations in the database.
- * 
- * Methods:
- * - createUser: Adds new user information to the database.
- * - getUser: Retrieves user information from the database.
- * - updateUser: Updates user information in the database.
- */
+interface updateUserParams {
+    email?: string;
+    password?: string;
+}
 
 class UserModel {
-
     /**
      * Adds a new user information in the database.
      * 
-     * @param User - User object to add.
-     * @returns Promise that resolves to the added user.
+     * @param User - User object containing username, email, and password to add.
      */
-    static async createUser(user: User): Promise<User> {
+    static async createUser({ username, email, password }: User): Promise<User> {
         try {
-            const { username, email, password: hashedPassword } = user;
             console.log("email" + email);
             const res = await prisma.user.create({
                 data: {
                     username,
                     email,
-                    password: hashedPassword,
+                    password: password
                 }
             });
             return res;
@@ -50,23 +39,21 @@ class UserModel {
     /**
      * Retrieve user information from the database.
      * 
-     * @param options - An object containing options fields to filter user retrieval.
-     * @param options.email - Email address of the user to retrieve.
-     * @param options.id - Id of the user to retrieve.
-     * @returns Promise that resolves to the retrieved user or null if no user was found.
+     * @param email - Email address of the user to retrieve.
+     * @param id - Id of the user to retrieve.
      */
-    static async getUser(options: { id?: number, email?: string }): Promise<User | null> {
+    static async getUser(options: { email?: string, id?: number }): Promise<User | null> {
         try {
-            const { id, email } = options;
-
-            // Prepare the where object with only the fields that are provided
-            const where: { id?: number, email?: string } = {};
-            if (id) where.id = id;
-            if (email) where.email = email;
+            const { email, id } = options;
 
             // Use findFirst to search by either email or id
             const user = await prisma.user.findFirst({
-                where: where,
+                where: {
+                    OR: [
+                        { email: email },
+                        { id: id }
+                    ]
+                }
             });
 
             return user;
@@ -78,17 +65,12 @@ class UserModel {
     /**
      * Updates user information in the database.
      * 
-     * @param id - ID of the user to update.
-     * @param options - An object containing optional fields to update.
-     * @param options.email - New email address of the user.
-     * @param options.password - New password of the user.
-     * @returns Promise that resolves to the updated user or null if no user was found.
+     * @param id - ID of the user to update..
+     * @param email - New email address of the user.
+     * @param password - New password of the user.
      */
-    static async updateUser(id: number, options: { email?: string, password?: string }): Promise<boolean> {
+    static async updateUser(id: number, { email, password }: updateUserParams): Promise<User> {
         try {
-            const { email, password } = options;
-
-            // Prepare the data object with only the fields that are provided
             const data: { email?: string, password?: string } = {};
             if (email) data.email = email;
             if (password) data.password = password;
@@ -99,7 +81,7 @@ class UserModel {
                 data: data,
             });
 
-            return result !== null; // Return true if the update was successful
+            return result;
         } catch (error: any) {
             throw new Error('Failed to update user: ' + error.message);
         }

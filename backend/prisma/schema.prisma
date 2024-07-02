@@ -23,12 +23,12 @@ model User {
 model Worker {
   id              Int       @id @default(autoincrement())
   userId          Int       @unique
-  workerType      String
-  experienceYears Int
-  dailyRate       Int
-  availability    Boolean
-  location        String
-  bio             String
+  workerType      String?
+  experienceYears Int?
+  dailyRate       Int?
+  availability    Boolean?
+  location        String?
+  bio             String?
   user            User      @relation(fields: [userId], references: [id])
   bookings        Booking[] // Relation to Booking table
   createdAt       DateTime  @default(now())
@@ -39,6 +39,8 @@ model Booking {
   id        Int      @id @default(autoincrement())
   userId    Int
   workerId  Int
+  startDate DateTime
+  duration  Int
   user      User     @relation(fields: [userId], references: [id])
   worker    Worker   @relation(fields: [workerId], references: [id])
   bookedAt  DateTime @default(now())
