@@ -10,6 +10,8 @@ import {
     getUserDetails
 } from "../controllers";
 
+import { singleUpload } from "../middleware/multer"
+
 const router = Router();
 
 //Route Level Middleware
@@ -26,5 +28,9 @@ router.post('/reset-password/:id/:token', resetPassword);
 router.post('/change-password', changeUserPassord);
 router.post('/logout', userLogout);
 router.get('/user-info', getUserDetails);
+
+
+// testing
+// router.post('/upload', singleUpload, uploadImage);
 
 export default router;

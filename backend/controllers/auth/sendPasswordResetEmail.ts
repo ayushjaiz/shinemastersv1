@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { generateToken, tokenDuration } from "../../utils/utils";
 import { UserModel } from "../../models/User";
-import { sendEmail } from "../../config/emailConfig"
+import { sendEmail } from "../../services.ts/sendEmail"
 
 async function sendPassWordResetEmail(req: Request, res: Response): Promise<void> {
     const { email } = req.body;

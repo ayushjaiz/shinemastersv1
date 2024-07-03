@@ -1,7 +1,7 @@
 import express from "express";
 import authRoutes from "./routes/authRoutes";
 import dotenv from "dotenv"
-import { connectToDB, createUserTable } from "./config/dbConfig";
+// import { connectToDB, createUserTable } from "./config/dbConfig";
 import cors from 'cors'
 
 dotenv.config({ path: `${process.cwd()}/.env` });
@@ -29,9 +29,9 @@ app.use('/auth', authRoutes);
 // Run server and connect to database
 app.listen(port, async () => {
     console.log(`Server running at localhost:${port}`)
-    try {
-        await connectToDB();
-    } catch (e) {
-        console.log(e);
-    }
+    // try {
+    //     await connectToDB();
+    // } catch (e) {
+    //     console.log(e);
+    // }
 });
