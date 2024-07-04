@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { generateHashedPassword, verifyToken } from '../../utils/utils';
-import { UserModel } from '../../models/User';
+import { generateHashedPassword, verifyToken } from '../../utils';
+import { UserModel } from '../../models';
 
-async function resetPassword(req: Request, res: Response): Promise<void> {
+const resetPassword = async function (req: Request, res: Response): Promise<void> {
     const { password, password_confirmation } = req.body;
     const { id, token } = req.params;
 
@@ -39,6 +39,7 @@ async function resetPassword(req: Request, res: Response): Promise<void> {
 
         res.status(201).json({ status: "success", message: 'Password changed successfully', });
     } catch (error) {
+        console.log('Error reseting password:', error);
         res.status(500).json({ status: "failed", message: 'Internal server error' });
     }
 }

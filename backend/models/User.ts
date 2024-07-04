@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient()
 
 interface User {
-    id?: number;
+    userId?: number;
     username: string;
     email: string;
     password: string;
@@ -40,18 +40,18 @@ class UserModel {
      * Retrieve user information from the database.
      * 
      * @param email - Email address of the user to retrieve.
-     * @param id - Id of the user to retrieve.
+     * @param userId - Id of the user to retrieve.
      */
-    static async getUser(options: { email?: string, id?: number }): Promise<User | null> {
+    static async getUser(options: { email?: string, userId?: number }): Promise<User | null> {
         try {
-            const { email, id } = options;
+            const { email, userId } = options;
 
-            // Use findFirst to search by either email or id
+            // Use findFirst to search by either email or userId
             const user = await prisma.user.findFirst({
                 where: {
                     OR: [
                         { email: email },
-                        { id: id }
+                        { userId: userId }
                     ]
                 }
             });
@@ -65,11 +65,11 @@ class UserModel {
     /**
      * Updates user information in the database.
      * 
-     * @param id - ID of the user to update..
+     * @param userId - ID of the user to update..
      * @param email - New email address of the user.
      * @param password - New password of the user.
      */
-    static async updateUser(id: number, { email, password }: updateUserParams): Promise<User> {
+    static async updateUser(userId: number, { email, password }: updateUserParams): Promise<User> {
         try {
             const data: { email?: string, password?: string } = {};
             if (email) data.email = email;
@@ -77,7 +77,7 @@ class UserModel {
 
             // Use Prisma's update method to update the user
             const result = await prisma.user.update({
-                where: { id: id },
+                where: { userId: userId },
                 data: data,
             });
 
@@ -88,5 +88,4 @@ class UserModel {
     }
 }
 
-export default User;
-export { UserModel };
+export { User, UserModel };

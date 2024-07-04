@@ -9,7 +9,7 @@ datasource db {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
+  userId    Int       @id @default(autoincrement())
   username  String
   email     String    @unique
   password  String
@@ -21,7 +21,7 @@ model User {
 }
 
 model Worker {
-  id              Int       @id @default(autoincrement())
+  workerId        Int       @id @default(autoincrement())
   userId          Int       @unique
   workerType      String?
   experienceYears Int?
@@ -29,20 +29,21 @@ model Worker {
   availability    Boolean?
   location        String?
   bio             String?
-  user            User      @relation(fields: [userId], references: [id])
+  imageUrl        String?
+  user            User      @relation(fields: [userId], references: [userId])
   bookings        Booking[] // Relation to Booking table
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
 }
 
 model Booking {
-  id        Int      @id @default(autoincrement())
+  bookingId        Int      @id @default(autoincrement())
   userId    Int
   workerId  Int
   startDate DateTime
   duration  Int
-  user      User     @relation(fields: [userId], references: [id])
-  worker    Worker   @relation(fields: [workerId], references: [id])
+  user      User     @relation(fields: [userId], references: [userId])
+  worker    Worker   @relation(fields: [workerId], references: [workerId])
   bookedAt  DateTime @default(now())
   updatedAt DateTime @updatedAt
 

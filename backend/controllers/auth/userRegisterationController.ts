@@ -1,12 +1,10 @@
 import { Request, Response } from 'express';
-import { UserModel } from '../../models/User';
-import { generateHashedPassword, generateToken, tokenDuration } from '../../utils/utils';
-import { validateEmail, validateUsername } from '../../utils/validators';
+import { UserModel } from '../../models';
+import { generateHashedPassword, generateToken, tokenDuration } from '../../utils';
+import { validateEmail, validateUsername } from '../../utils';
 
-async function userRegistration(req: Request, res: Response): Promise<void> {
+const userRegistration = async function (req: Request, res: Response): Promise<void> {
     const { username, email, password, password_confirmation } = req.body;
-
-    console.log(email);
 
     try {
         // Check if all fields are present
@@ -41,7 +39,7 @@ async function userRegistration(req: Request, res: Response): Promise<void> {
         const newUser = await UserModel.createUser({ username, email, password: hashedPassword });
 
         // Generate token
-        const token = generateToken(newUser.id!);
+        const token = generateToken(newUser.userId!);
 
         // Add token to cookie
         res.cookie('jwt', token, { httpOnly: true, maxAge: tokenDuration * 1000 });

@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { generateToken, tokenDuration } from "../../utils/utils";
-import { UserModel } from "../../models/User";
-import { sendEmail } from "../../services.ts/sendEmail"
+import { generateToken, tokenDuration } from "../../utils";
+import { UserModel } from "../../models";
+import { sendEmail } from "../../services"
 
-async function sendPassWordResetEmail(req: Request, res: Response): Promise<void> {
+const sendPassWordResetEmail = async function (req: Request, res: Response): Promise<void> {
     const { email } = req.body;
 
     if (!email) {
@@ -21,10 +21,10 @@ async function sendPassWordResetEmail(req: Request, res: Response): Promise<void
         }
 
         // Generate token
-        const token = generateToken(user.id!,600);
+        const token = generateToken(user.userId!, 600);
 
         // Frontend form link where the new password will be enetered
-        const link = `http://localhost:3000/api/user/reset/${user.id}/${token}`
+        const link = `http://localhost:3000/api/user/reset/${user.userId}/${token}`
 
         // Send email to the user email
         const result = await sendEmail({
@@ -35,6 +35,7 @@ async function sendPassWordResetEmail(req: Request, res: Response): Promise<void
 
         res.status(201).send({ status: "success", message: "check email to change password", token: token });
     } catch (error) {
+        console.log('Error sending password reset email:', error);
         res.status(500).send({ status: "failed", message: "InternaL Server Error" })
     }
 }

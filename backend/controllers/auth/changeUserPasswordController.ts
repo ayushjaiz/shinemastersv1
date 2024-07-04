@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import { generateHashedPassword } from '../../utils/utils';
-import { UserModel } from '../../models/User';
-import { AuthenticatedRequest } from '../../middleware/authMiddleware';
+import { generateHashedPassword } from '../../utils';
+import { AuthenticatedRequest } from '../../middleware';
+import { UserModel } from '../../models';
 
-async function changeUserPassord(req: AuthenticatedRequest, res: Response) {
+const changeUserPassord = async function (req: AuthenticatedRequest, res: Response) {
     const { password, password_confirmation } = req.body;
 
     try {
@@ -30,6 +30,7 @@ async function changeUserPassord(req: AuthenticatedRequest, res: Response) {
 
         res.status(201).json({ status: "success", message: 'Password changed successfully' });
     } catch (error) {
+        console.log('Error changing user password:', error);
         res.status(500).json({ status: "failed", message: 'Internal server error' });
     }
 

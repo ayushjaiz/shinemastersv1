@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-import { verifyToken } from '../utils/utils';
-import { UserModel } from '../models/User';
+import { verifyToken } from '../utils';
+import { UserModel } from '../models';
 
 // Custom interface extending the Request interface
 export interface AuthenticatedRequest extends Request {
-    user?: any; 
+    user?: any;
 }
 
 async function checkUserAuth(req: Request, res: Response, next: NextFunction) {
@@ -22,12 +22,12 @@ async function checkUserAuth(req: Request, res: Response, next: NextFunction) {
         const userId = verifyToken(token);
 
         // Get user from id
-        const user = await UserModel.getUser({ id: userId });
+        const user = await UserModel.getUser({ userId: userId });
 
         if (!user) {
             return res.status(401).json({ message: "Unauthorized User" });
         }
-        
+
         (req as AuthenticatedRequest).user = user;
 
         // If everything is fine, proceed to the next middleware

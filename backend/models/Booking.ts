@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 interface Booking {
-    id?: number,
+    bookingId?: number,
     userId: number,
     workerId: number,
     startDate: Date,
@@ -43,7 +43,7 @@ class BookingModel {
             if (duration !== undefined) updateBookingData.duration = duration;
 
             if (Object.keys(updateBookingData).length === 0) {
-                throw new Error('No fields provided to update');
+                throw new Error('No fields provbookingIded to update');
             }
 
             const updatedBooking = await prisma.booking.update({
@@ -64,7 +64,18 @@ class BookingModel {
             throw new Error('Failed to update booking: ' + error.message);
         }
     }
+
+    static async deleteBooking(bookingId: number): Promise<void> {
+        try {
+            await prisma.booking.delete({
+                where: {
+                    bookingId: bookingId,
+                },
+            });
+        } catch (error: any) {
+            throw new Error('Failed to delete booking');
+        }
+    }
 }
 
-export default Booking;
-export { BookingModel };
+export { Booking, BookingModel };

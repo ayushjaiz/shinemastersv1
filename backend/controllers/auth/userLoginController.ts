@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { UserModel } from '../../models/User';
-import { comparePassword, generateToken, tokenDuration } from '../../utils/utils';
+import { UserModel } from '../../models';
+import { comparePassword, generateToken, tokenDuration } from '../../utils';
 
-async function userLogin(req: Request, res: Response): Promise<void> {
+const userLogin = async function (req: Request, res: Response): Promise<void> {
     const { email, password } = req.body;
     try {
         // Check if all fields are present
@@ -25,7 +25,7 @@ async function userLogin(req: Request, res: Response): Promise<void> {
         }
 
         // Generate token
-        const token = generateToken(user.id!);
+        const token = generateToken(user.userId!);
 
         // Add token to cookie
         res.cookie('jwt', token, { httpOnly: true, maxAge: tokenDuration * 1000 });

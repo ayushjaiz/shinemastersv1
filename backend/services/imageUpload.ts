@@ -1,4 +1,3 @@
-// services/imageUploadService.ts
 import cloudinary from '../config/cloudinaryConfig';
 import streamifier from 'streamifier';
 

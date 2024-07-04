@@ -1,9 +1,10 @@
 import { PrismaClient } from "@prisma/client";
+import getAllWorkers from "../controllers/workers/getAllWorkersController";
 
 const prisma = new PrismaClient()
 
 interface Worker {
-    id?: number;
+    workerId?: number;
     userId: number;
     workerType?: string | null;
     experienceYears?: number | null;
@@ -111,7 +112,7 @@ class WorkerModel {
             }
 
             const updatedWorker = await prisma.worker.update({
-                where: { id: workerId },
+                where: { workerId },
                 data: data
             });
 
@@ -121,7 +122,33 @@ class WorkerModel {
             throw new Error('Failed to update worker');
         }
     }
+
+    static async getAllWorkers(): Promise<Worker[]> {
+        try {
+            const workers = await prisma.worker.findMany();
+
+            return workers;
+        } catch (error: any) {
+            throw new Error(error);
+        }
+
+    }
+
+    static async getWorkerDetails(workerId: number): Promise<Worker> {
+        try {
+            const worker = await prisma.worker.findUnique({
+                where: { workerId }
+            });
+
+            if (worker == null) {
+                throw new Error(`No worker found with workerId ${workerId}`);
+            }
+            return worker;
+        } catch (error: any) {
+            throw new Error(error);
+        }
+
+    }
 }
 
-export default Worker;
-export { WorkerModel };
+export { Worker, WorkerModel };
