@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="css/workerregisteration.css" />
+  <title>Shinemasters</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <form action="/workerregisteration" method="POST" id="userlogin" class="container">
+      <h2>Register as a worker</h2>
+      <div class="fill">
+        <label for="name"></label>
+        <input type="text" placeholder="Name" id="name" class="box" name="name" required />
+        <label for="phone"></label>
+        <input type="text" placeholder="Phone No." id="phone" class="box" name="number" required />
+        <label for="email"></label>
+        <input type="text" placeholder="Email" id="email" class="box" name="email" required />
+
+        <select name="service" id="lang">
+          <option value="">Service</option>
+          <option value="cleaner">Cleaner</option>
+          <option value="washer">Washer</option>
+          <option value="cook">Cook</option>
+          <option value="gardener">gardener</option>
+          <option value="painter">Painter</option>
+        </select>
+
+      </div>
+      <button type="submit" class="login">Register</button>
+    </form>
+  </div>
+</body>
+
+</html>

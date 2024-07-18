@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="css/userregisteration.css" />
+  <title>Shinemasters</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <form action="/userregisteration" method="POST" id="userlogin" class="container">
+      <h2>SIGN UP</h2>
+
+      <div class="fill">
+        <label for="name"></label>
+        <input type="text" placeholder="Name" name="name" id="name" class="box" required />
+        <label for="phone"></label>
+        <input type="text" placeholder="Phone No." name="number" id="phone" class="box" required />
+        <label for="email"></label>
+        <input type="text" placeholder="Email" name="email" id="email" class="box" required />
+        <label for="password"></label>
+        <input type="text" placeholder="Password" name="password" id="password" class="box" required />
+        <label for="address"></label>
+        <input type="text" placeholder="Address" name="address" id="address" class="box" required />
+      </div>
+
+      <button type="submit" class="login">SIGNUP</button>
+
+      <div class="footer">
+        <div class="text">Already a member?</div>
+        <a href="/userlogin" class="sign">Login</a>
+      </div>
+    </form>
+  </div>
+</body>
+
+</html>
