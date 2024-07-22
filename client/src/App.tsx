@@ -13,6 +13,11 @@ import BrowsePage from "./pages/browse/BrowsePage";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { appStore, persistor } from "./store/appStore";
+import Dashboard from "./pages/dashboard/Dashboard";
+import Home from "./pages/home/Home";
+import CategoryPage from "./pages/category/CategoryPage";
+import { DetailsPage } from "./pages/details/DetailsPage";
+import BookingPage from "./pages/myBooking/BookingPage";
 
 // import { Provider } from "react-redux";
 // import { PersistGate } from "redux-persist/integration/react";
@@ -35,12 +40,18 @@ const App = () => {
       <PersistGate loading={null} persistor={persistor}>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<AppLayout />} />
+            {/* <Route path="/" element={<AppLayout />} /> */}
+            <Route path="/" element={<Home />} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/login" element={<SignUpPage />} />
-            <Route element={<ProtectedRoute />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/services" element={<BrowsePage />} />
+            <Route path="/search" element={<CategoryPage />} />
+            <Route path="/details" element={<DetailsPage />} />
+            <Route path="/bookings" element={<BookingPage />} />
+            {/* <Route element={<ProtectedRoute />}>
               <Route path="/browse" element={<BrowsePage />} />
-            </Route>
+            </Route> */}
           </Routes>
         </BrowserRouter>
       </PersistGate>

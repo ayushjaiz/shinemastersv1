@@ -5,7 +5,7 @@ const getAllWorkers = async function (req: Request, res: Response) {
     try {
         const workers: Worker[] = await WorkerModel.getAllWorkers();
 
-        return workers;
+        res.send(workers) ;
     }
     catch (error) {
         console.error('Error retrieving worker:', error);

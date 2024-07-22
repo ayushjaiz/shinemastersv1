@@ -12,6 +12,7 @@ interface Worker {
     availability?: boolean | null;
     location?: string | null;
     bio?: string | null;
+    imageUrl?: string | null,
     createdAt?: Date;
     updatedAt?: Date;
 }
@@ -23,6 +24,7 @@ interface updateWorkerParams {
     availability?: Boolean;
     location?: string;
     bio?: string;
+    imageUrl? : string,
 }
 
 class WorkerModel {
@@ -33,7 +35,8 @@ class WorkerModel {
             availability,
             dailyRate,
             location,
-            experienceYears
+            experienceYears,
+            imageUrl,
         }: Worker
     ): Promise<Worker> {
 
@@ -61,6 +64,10 @@ class WorkerModel {
 
             if (bio !== undefined) {
                 data.bio = bio;
+            }
+
+            if (imageUrl !== undefined) {
+                data.imageUrl = imageUrl;
             }
 
             const createdWorker = await prisma.worker.create({
@@ -126,6 +133,8 @@ class WorkerModel {
     static async getAllWorkers(): Promise<Worker[]> {
         try {
             const workers = await prisma.worker.findMany();
+            console.log('hello from get worker model');
+            console.log(workers.length);
 
             return workers;
         } catch (error: any) {

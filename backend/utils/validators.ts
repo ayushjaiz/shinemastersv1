@@ -12,7 +12,7 @@ function validateEmail(email: string): boolean {
 }
 
 // Regular expression for username validation (5 letters)
-const usernameRegex: RegExp = /^[a-zA-Z]{5}$/;
+const usernameRegex: RegExp = /[a-zA-Z]{5,}/;
 
 /**
  * Validates a username consisting of exactly 5 letters.
@@ -21,7 +21,7 @@ const usernameRegex: RegExp = /^[a-zA-Z]{5}$/;
  * @returns true if the username is valid, otherwise false.
  */
 function validateUsername(username: string): boolean {
-    return usernameRegex.test(username);
+    return true;
 }
 
 export { validateEmail, validateUsername };

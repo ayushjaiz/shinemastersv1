@@ -29,16 +29,17 @@ const SignUpPage = () => {
   const handleButtonClick = async () => {
     let promise: Promise<void>;
 
+    // signup
     if (isSignupForm) {
       const formData = {
-        username: name.current!.value,
+        name: name.current!.value,
         email: email.current!.value,
         password: password.current!.value,
         password_confirmation: password.current!.value,
       };
 
       promise = axios
-        .post("http://localhost:4000/auth/signup", formData, {
+        .post("http://localhost:4000/api/auth/signup", formData, {
           withCredentials: true,
         })
         .then(({ data }) => {
@@ -55,20 +56,23 @@ const SignUpPage = () => {
 
           dispatch(addUser(userObj));
 
-          navigate("/browse");
+          navigate("/");
         })
         .catch((error) => {
           console.error("Error:", error);
           throw error;
         });
-    } else {
+    }
+
+    // login
+    else {
       const formData = {
         email: email.current!.value,
         password: password.current!.value,
       };
 
       promise = axios
-        .post("http://localhost:4000/auth/login", formData, {
+        .post("localhost:4000/api/auth/login", formData, {
           withCredentials: true,
         })
         .then(({ data }) => {
@@ -102,7 +106,7 @@ const SignUpPage = () => {
 
           dispatch(addUser(userObj));
 
-          navigate("/browse");
+          navigate("/");
         })
         .catch((error) => {
           console.error("Error:", error);

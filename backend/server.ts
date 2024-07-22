@@ -8,7 +8,9 @@ import cors from 'cors'
 dotenv.config({ path: `${process.cwd()}/.env` });
 const app = express();
 
-const port = process.env.APP_PORT || 3000;
+const port = process.env.APP_PORT || 4000;
+
+app.use(express.urlencoded({ extended: true }));
 
 // Creates user table
 // createUserTable();

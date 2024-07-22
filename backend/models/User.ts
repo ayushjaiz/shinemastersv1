@@ -3,7 +3,7 @@ const prisma = new PrismaClient()
 
 interface User {
     userId?: number;
-    username: string;
+    name: string;
     email: string;
     password: string;
     createdAt?: Date;
@@ -18,14 +18,14 @@ class UserModel {
     /**
      * Adds a new user information in the database.
      * 
-     * @param User - User object containing username, email, and password to add.
+     * @param User - User object containing name, email, and password to add.
      */
-    static async createUser({ username, email, password }: User): Promise<User> {
+    static async createUser({ name, email, password }: User): Promise<User> {
         try {
             console.log("email" + email);
             const res = await prisma.user.create({
                 data: {
-                    username,
+                    name,
                     email,
                     password: password
                 }

@@ -14,11 +14,13 @@ const registerWorker = async function (req: AuthenticatedRequest, res: Response)
             bio
         } = req.body;
 
-        const userId = req.user.id;
+        const userId = req.user.userId;
+        console.log('userId at controller', req.user.userId);
 
         let imageUrl: string | undefined;
         if (req.file) {
             const image = await uploadImage(req.file.buffer);
+            
             imageUrl = image.secure_url;
         }
 
@@ -26,10 +28,11 @@ const registerWorker = async function (req: AuthenticatedRequest, res: Response)
             userId,
             workerType,
             bio,
-            availability,
-            dailyRate,
+            availability: true,
+            dailyRate: parseInt(dailyRate),
             location,
-            experienceYears
+            experienceYears: parseInt(experienceYears),
+            imageUrl,
         });
 
         res.status(201).json({ status: "success", message: 'Worker registered successfully', Worker: newWorker });

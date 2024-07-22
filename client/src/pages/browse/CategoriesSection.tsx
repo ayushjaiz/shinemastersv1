@@ -1,5 +1,23 @@
 import React from "react";
 
+{
+  /* <FontAwesomeIcon icon={faBroom} /> */
+}
+{
+  /* <FontAwesomeIcon icon={faPaintbrush} /> */
+}
+{
+  /* <FontAwesomeIcon icon={faUserNurse} /> */
+}
+
+import cleanerLogo from "../../img/cleaner_logo.png"; // Adjust paths as needed
+import painterLogo from "../../img/painter_logo.png";
+import electricLogo from "../../img/electrical_logo.png";
+import repairLogo from "../../img/repair_logo.png";
+import cookLogo from "../../img/cook.svg";
+
+import { Link } from "react-router-dom";
+
 const CategoriesSection = () => {
   return (
     <div className="py-8">
@@ -13,17 +31,70 @@ const CategoriesSection = () => {
       <div className="text-4xl pt-5 pb-8 font-bold">Browse by Category</div>
 
       <div className="flex gap-10">
-        <div className="w-36 h-32 border-2 border-gray-300 rounded-md hover:bg-blue-700 flex flex-col items-center justify-center hover:text-white">
-          Garderner
-        </div>
+        <Link to="/gardener" className="block">
+          <div className="w-36 h-32 border-2 border-gray-300 rounded-md bg-white  flex flex-col items-center justify-center  transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-xl">
+            <img
+              src={cleanerLogo}
+              alt="Cleaner"
+              className="w-16 h-16 mb-2 rounded-full object-cover"
+            />
+            <span className="font-semibold text-gray-800 ">
+              Cleaner
+            </span>
+          </div>
+        </Link>
 
-        <div className="w-36 h-32 border-2 border-gray-300 rounded-md hover:bg-blue-700 flex flex-col items-center justify-center hover:text-white">
-          Painter
-        </div>
+        <Link to="/painter" className="block">
+          <div className="w-36 h-32 border-2 border-gray-300 rounded-md bg-white  flex flex-col items-center justify-center  transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-xl">
+            <img
+              src={painterLogo}
+              alt="Painter"
+              className="w-16 h-16 mb-2 rounded-full object-cover"
+            />
+            <span className="font-semibold text-gray-800 ">
+              Painter
+            </span>
+          </div>
+        </Link>
 
-        <div className="w-36 h-32 border-2 border-gray-300 rounded-md hover:bg-blue-700 flex flex-col items-center justify-center hover:text-white">
-          Sweeper
-        </div>
+        <Link to="/electric" className="block">
+          <div className="w-36 h-32 border-2 border-gray-300 rounded-md bg-white  flex flex-col items-center justify-center  transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-xl">
+            <img
+              src={electricLogo}
+              alt="Electric"
+              className="w-16 h-16 mb-2 rounded-full object-cover"
+            />
+            <span className="font-semibold text-gray-800 ">
+              Electric
+            </span>
+          </div>
+        </Link>
+
+        <Link to="/repair" className="block">
+          <div className="w-36 h-32 border-2 border-gray-300 rounded-md bg-white  flex flex-col items-center justify-center  transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-xl">
+            <img
+              src={repairLogo}
+              alt="Repair"
+              className="w-16 h-16 mb-2 rounded-full object-cover"
+            />
+            <span className="font-semibold text-gray-800 ">
+              Repair
+            </span>
+          </div>
+        </Link>
+
+        <Link to="/cook" className="block">
+          <div className="w-36 h-32 border-2 border-gray-300 rounded-md bg-white flex flex-col items-center justify-center  transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-xl">
+            <img
+              src={cookLogo}
+              alt="Cook"
+              className="w-16 h-16 mb-2 rounded-full object-cover"
+            />
+            <span className="font-semibold text-gray-800 ">
+              Cook
+            </span>
+          </div>
+        </Link>
       </div>
     </div>
   );

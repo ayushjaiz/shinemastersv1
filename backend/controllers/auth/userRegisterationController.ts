@@ -4,18 +4,18 @@ import { generateHashedPassword, generateToken, tokenDuration } from '../../util
 import { validateEmail, validateUsername } from '../../utils';
 
 const userRegistration = async function (req: Request, res: Response): Promise<void> {
-    const { username, email, password, password_confirmation } = req.body;
+    const { name, email, password, password_confirmation } = req.body;
 
     try {
         // Check if all fields are present
-        if (!username || !email || !password || !password_confirmation) {
+        if (!name || !email || !password || !password_confirmation) {
             res.status(400).json({ status: "failed", message: 'All fields are required' });
             return;
         }
 
         // Email and password validation
-        if (!validateEmail(email) || !validateUsername(username)) {
-            res.status(400).json({ status: "failed", message: 'Enter correct email id and at least 5 letters username' });
+        if (!validateEmail(email) || !validateUsername(name)) {
+            res.status(400).json({ status: "failed", message: 'Enter correct email id and at least 5 letters name' });
             return;
         }
 
@@ -36,7 +36,7 @@ const userRegistration = async function (req: Request, res: Response): Promise<v
         const hashedPassword = await generateHashedPassword(password);
 
         // Create user in the database
-        const newUser = await UserModel.createUser({ username, email, password: hashedPassword });
+        const newUser = await UserModel.createUser({ name, email, password: hashedPassword });
 
         // Generate token
         const token = generateToken(newUser.userId!);
