@@ -10,7 +10,7 @@ import ProtectedRoute from "./pages/ProtectedRoute";
 import BrowsePage from "./pages/browse/BrowsePage";
 // import { Provider } from "react-redux";
 
-import { Provider } from "react-redux";
+import { Provider } from "react-redux"; 
 import { PersistGate } from "redux-persist/integration/react";
 import { appStore, persistor } from "./store/appStore";
 import Dashboard from "./pages/dashboard/Dashboard";
@@ -46,7 +46,8 @@ const App = () => {
             <Route path="/login" element={<SignUpPage />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/services" element={<BrowsePage />} />
-            <Route path="/search" element={<CategoryPage />} />
+            <Route path="/services/:type" element={<CategoryPage />} />
+            <Route path="/worker/:id" element={<DetailsPage />} />
             <Route path="/details" element={<DetailsPage />} />
             <Route path="/bookings" element={<BookingPage />} />
             {/* <Route element={<ProtectedRoute />}>

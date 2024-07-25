@@ -20,28 +20,28 @@ const cardDetails: CardDetail[] = [
   {
     caption: "Cleaner",
     imgLink: cleaner,
-    route: "/service?type=cleaner",
+    route: "/services/cleaners",
   },
   {
     caption: "Painter",
     imgLink: painter,
-    route: "/service?type=painter",
+    route: "/services/painters",
   },
   {
     caption: "Electric",
     imgLink: electric,
-    route: "/service?type=electric",
+    route: "/services/electricals",
   },
   {
     caption: "Repair",
     imgLink: repair,
-    route: "/service?type=repair",
+    route: "/services/repairs",
   },
   {
     caption: "Cook",
     imgLink: cook,
-    route: "/service?type=cook",
-  },
+    route: "/services/cooks",
+    },
 ];
 
 const CategoryImages = () => {

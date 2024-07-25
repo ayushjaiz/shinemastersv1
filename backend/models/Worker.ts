@@ -24,7 +24,7 @@ interface updateWorkerParams {
     availability?: Boolean;
     location?: string;
     bio?: string;
-    imageUrl? : string,
+    imageUrl?: string,
 }
 
 class WorkerModel {
@@ -41,6 +41,11 @@ class WorkerModel {
     ): Promise<Worker> {
 
         try {
+            await prisma.user.update({
+                where: { userId },
+                data: { isWorker: true },
+            });
+
             const data: any = {
                 userId,
                 workerType,
@@ -92,6 +97,7 @@ class WorkerModel {
         }: updateWorkerParams
     ): Promise<Worker> {
         try {
+
             const data: any = {};
 
             if (workerType !== undefined) {
@@ -132,9 +138,13 @@ class WorkerModel {
 
     static async getAllWorkers(): Promise<Worker[]> {
         try {
-            const workers = await prisma.worker.findMany();
-            console.log('hello from get worker model');
-            console.log(workers.length);
+            const workers = await prisma.worker.findMany({
+                include: {
+                    user: true, // Include related User data
+                },
+            });
+            // console.log('hello from get worker model');
+            // console.log(workers.length);
 
             return workers;
         } catch (error: any) {
@@ -146,7 +156,10 @@ class WorkerModel {
     static async getWorkerDetails(workerId: number): Promise<Worker> {
         try {
             const worker = await prisma.worker.findUnique({
-                where: { workerId }
+                where: { workerId },
+                include: {
+                    user: true, // Include related User data
+                },
             });
 
             if (worker == null) {

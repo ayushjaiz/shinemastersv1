@@ -3,10 +3,18 @@ import { Worker, WorkerModel } from "../../models";
 
 const getWorkerDetails = async function (req: Request, res: Response) {
     try {
-        const { workerId } = req.query;
+        const workerId = parseInt(req.params.workerId, 10);
 
-        const worker: Worker = await WorkerModel.getWorkerDetails(1);
-        return worker;
+        if (isNaN(workerId)) {
+            return res.status(400).json({ error: 'Invalid workerId' });
+        }
+
+        const worker = await WorkerModel.getWorkerDetails(workerId);
+
+        if (!worker) {
+            return res.status(404).json({ error: 'Worker not found' });
+        }
+        res.send(worker);
     }
     catch (error) {
         console.error('Error retrieving workers:', error);

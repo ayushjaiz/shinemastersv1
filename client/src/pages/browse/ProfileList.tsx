@@ -1,5 +1,6 @@
 import React from "react";
 import ProfileCard from "./ProfileCard";
+import { Worker } from "./BrowsePage";
 
 export enum ProfileType {
   Suggested,
@@ -10,9 +11,10 @@ export enum ProfileType {
 
 interface ProfileListProps {
   profileType: ProfileType;
+  workers: Worker[];
 }
 
-const ProfileList = ({ profileType }: ProfileListProps) => {
+const ProfileList = ({ profileType, workers }: ProfileListProps) => {
   return (
     <div className="py-8">
       <div className="flex items-center gap-3 ">
@@ -24,26 +26,14 @@ const ProfileList = ({ profileType }: ProfileListProps) => {
         </h2>
       </div>
 
-      <div className="flex gap-10">
-        <div className="flex gap-10 pt-5 pb-8">
-          <ProfileCard displayType={profileType === ProfileType.Suggested} />
-        </div>
-
-        <div className="flex gap-10 pt-5 pb-8">
-          <ProfileCard displayType={profileType === ProfileType.Suggested} />
-        </div>
-
-        <div className="flex gap-10 pt-5 pb-8">
-          <ProfileCard displayType={profileType === ProfileType.Suggested} />
-        </div>
-
-        <div className="flex gap-10 pt-5 pb-8">
-          <ProfileCard displayType={profileType === ProfileType.Suggested} />
-        </div>
-
-        <div className="flex gap-10 pt-5 pb-8">
-          <ProfileCard displayType={profileType === ProfileType.Suggested} />
-        </div>
+      <div className="flex gap-10 mt-6">
+        {workers
+          .map((worker: Worker) => (
+            <ProfileCard
+              displayType={profileType === ProfileType.Suggested}
+              worker={worker}
+            />
+          ))}
       </div>
     </div>
   );
