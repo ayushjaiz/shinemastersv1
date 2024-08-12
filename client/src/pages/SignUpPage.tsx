@@ -5,24 +5,34 @@ import { Link, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { UseDispatch, useDispatch } from "react-redux";
+import { UseDispatch, useDispatch, useSelector } from "react-redux";
 import { User, addUser } from "../store/reducers/userSlice";
 import { setToken } from "../store/reducers/authSlice";
+import { RootState } from "../store/appStore";
 
 const SignUpPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
   const isSignupForm = location.pathname === "/signup";
+  const [isWorker, setIsWorker] = useState<boolean>(false);
+
 
   const name = useRef<HTMLInputElement>(null);
   const email = useRef<HTMLInputElement>(null);
   const password = useRef<HTMLInputElement>(null);
 
   const [isPasswordVisible, setIsPasswordVisible] = useState<Boolean>(false);
+
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
+
+  const handleIsWorkerCheckBox = () => {
+    console.log('INitial', isWorker);
+    setIsWorker(!isWorker);
+    console.log(isWorker);
+  }
 
   const dispatch = useDispatch();
 
@@ -36,27 +46,29 @@ const SignUpPage = () => {
         email: email.current!.value,
         password: password.current!.value,
         password_confirmation: password.current!.value,
+        isWorker: isWorker,
       };
+
+      console.log(formData);
 
       promise = axios
         .post("http://localhost:4000/api/auth/signup", formData, {
           withCredentials: true,
         })
         .then(({ data }) => {
-          console.log("Server response:", data);
-
-          console.log("Signup", data.user.username);
-
           const userObj: User = {
             name: data.user.username,
             email: data.user.email,
           };
 
-          console.log("obj", userObj);
-
           dispatch(addUser(userObj));
 
-          navigate("/");
+          dispatch(setToken(data.token));
+
+          if (!isWorker)
+            navigate("/");
+          else
+            navigate('/register-worker')
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -76,8 +88,6 @@ const SignUpPage = () => {
           withCredentials: true,
         })
         .then(({ data }) => {
-          console.log("Server response:", data);
-
           console.log("Login", data.user.username);
 
           const userObj: User = {
@@ -85,24 +95,7 @@ const SignUpPage = () => {
             email: data.user.email,
           };
 
-          console.log("obj", userObj);
-
-          // const jwtCookie = document.cookie
-          //   .split("; ")
-          //   .find((row) => row.startsWith("jwt="));
-
-          // if (jwtCookie) {
-          //   // Extract token from cookie
-          //   const token = jwtCookie.split("=")[1];
-
-          //   console.log("jwt from signup", token);
-
-          //   // Dispatch action to set the token in Redux state or wherever needed
-          //   dispatch(setToken(token));
-          // }
-
-          // const cookies = document.cookie;
-          // console.log("cookie", cookies);
+          dispatch(setToken(data.token));
 
           dispatch(addUser(userObj));
 
@@ -212,31 +205,26 @@ const SignUpPage = () => {
               </div>
             </div>
 
-            {!isSignupForm && (
+            {isSignupForm && (
               <div className="flex items-start">
                 <div className="flex items-start">
                   <div className="flex items-center h-5">
                     <input
-                      id="remember"
+                      id="isWorkerCheckbox"
                       type="checkbox"
-                      value=""
+                      checked={isWorker}
+                      onChange={handleIsWorkerCheckBox}
                       className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
                       required
                     />
                   </div>
                   <label
-                    htmlFor="remember"
+                    htmlFor="isWorkerCheckbox"
                     className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                   >
-                    Remember me
+                    Register as a worker
                   </label>
                 </div>
-                <a
-                  href="#"
-                  className="ms-auto text-sm text-blue-700 hover:underline dark:text-blue-500"
-                >
-                  Lost Password?
-                </a>
               </div>
             )}
 

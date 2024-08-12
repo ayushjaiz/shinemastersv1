@@ -1,5 +1,5 @@
 import express from "express";
-import { authRoutes, workerRoutes } from "./routes";
+import { authRoutes, bookingRouters, workerRoutes } from "./routes";
 import dotenv from "dotenv"
 
 // import { connectToDB, createUserTable } from "./config/dbConfig";
@@ -30,7 +30,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/worker', workerRoutes);
-// app.use('/api/booking', bookingRoutes);
+app.use('/api/booking', bookingRouters);
 
 // Run server and connect to database
 app.listen(port, async () => {

@@ -4,7 +4,7 @@ import { generateHashedPassword, generateToken, tokenDuration } from '../../util
 import { validateEmail, validateUsername } from '../../utils';
 
 const userRegistration = async function (req: Request, res: Response): Promise<void> {
-    const { name, email, password, password_confirmation } = req.body;
+    const { name, email, password, password_confirmation, isWorker } = req.body;
 
     try {
         // Check if all fields are present

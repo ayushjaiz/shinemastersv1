@@ -26,13 +26,22 @@ class BookingModel {
                 duration,
             };
 
+            await prisma.worker.update({
+                where: { workerId },
+                data: {
+                    availability: false
+                }
+            })
+
+
             const createdBooking = await prisma.booking.create({
                 data: bookingData,
             });
 
+
             return createdBooking;
         } catch (error: any) {
-            throw new Error('Failed to create booking');
+            throw new Error(error);
         }
     }
 
@@ -43,7 +52,7 @@ class BookingModel {
             if (duration !== undefined) updateBookingData.duration = duration;
 
             if (Object.keys(updateBookingData).length === 0) {
-                throw new Error('No fields provbookingIded to update');
+                throw new Error('No fields provided to update');
             }
 
             const updatedBooking = await prisma.booking.update({
@@ -73,7 +82,7 @@ class BookingModel {
                 },
             });
         } catch (error: any) {
-            throw new Error('Failed to delete booking');
+            throw new Error('Failed to delete booking: ' + error);
         }
     }
 }

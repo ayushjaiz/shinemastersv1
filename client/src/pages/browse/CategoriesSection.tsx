@@ -53,14 +53,14 @@ const CategoriesSection = () => {
           </div>
         </Link>
 
-        <Link to="electricals" className="block">
+        <Link to="electricians" className="block">
           <div className="w-36 h-32 border-2 border-gray-300 rounded-md bg-white  flex flex-col items-center justify-center  transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-xl">
             <img
               src={electricLogo}
-              alt="Electric"
+              alt="Electricians"
               className="w-16 h-16 mb-2 rounded-full object-cover"
             />
-            <span className="font-semibold text-gray-800 ">Electric</span>
+            <span className="font-semibold text-gray-800 ">Electricians</span>
           </div>
         </Link>
 

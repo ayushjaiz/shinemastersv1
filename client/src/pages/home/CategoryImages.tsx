@@ -2,7 +2,7 @@ import React from "react";
 
 import cleaner from "../../img/Cleaner.jpeg";
 import painter from "../../img/Cleaner.jpeg";
-import electric from "../../img/Cleaner.jpeg";
+import electrician from "../../img/Cleaner.jpeg";
 import repair from "../../img/Cleaner.jpeg";
 import cook from "../../img/Cleaner.jpeg";
 import { Button } from "@/components/ui/button";
@@ -28,9 +28,9 @@ const cardDetails: CardDetail[] = [
     route: "/services/painters",
   },
   {
-    caption: "Electric",
-    imgLink: electric,
-    route: "/services/electricals",
+    caption: "Electrician",
+    imgLink: electrician,
+    route: "/services/electricians",
   },
   {
     caption: "Repair",
