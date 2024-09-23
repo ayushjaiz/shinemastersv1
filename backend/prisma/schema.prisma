@@ -5,12 +5,12 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DB_URL")
+  url      = env("DATABASE_URL")
 }
 
 model User {
   userId    Int       @id @default(autoincrement())
-  name  String
+  name      String
   email     String    @unique
   password  String
   isWorker  Boolean   @default(false)
@@ -37,7 +37,7 @@ model Worker {
 }
 
 model Booking {
-  bookingId        Int      @id @default(autoincrement())
+  bookingId Int      @id @default(autoincrement())
   userId    Int
   workerId  Int
   startDate DateTime
