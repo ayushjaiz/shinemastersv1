@@ -1,5 +1,4 @@
 import { PrismaClient } from "@prisma/client";
-import getAllWorkers from "../controllers/workers/getAllWorkersController";
 
 const prisma = new PrismaClient()
 

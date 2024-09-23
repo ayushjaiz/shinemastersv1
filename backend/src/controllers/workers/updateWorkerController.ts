@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Worker, WorkerModel } from "../../models";
+import { cacheService } from "../../services";
 
 const updateWorker = async function (req: Request, res: Response) {
     try {
@@ -23,9 +24,12 @@ const updateWorker = async function (req: Request, res: Response) {
                 dailyRate,
                 location,
                 experienceYears,
-
             }
         )
+
+        // Invalidate the cache for the updated worker
+        const cacheKey = `worker:${workerId}`;
+        await cacheService.del(cacheKey);
 
         res.status(201).json({ status: "success", message: 'Worker updated successfully', updatedWorkerr: updatedWorker });
     } catch (error) {

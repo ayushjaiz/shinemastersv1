@@ -1,7 +1,5 @@
-import dotenv from "dotenv";
-dotenv.config({ path: `${process.cwd()}/.env` });
-
 import nodemailer from 'nodemailer';
+import { emailConfig } from '../config';
 
 /**
  * Sends an email using Nodemailer transporter.
@@ -15,14 +13,14 @@ async function sendEmail({ email, subject, body }: { email: string, subject: str
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: process.env.EMAIL_ADMIN,
-            pass: process.env.EMAIL_PASSWORD
+            user: emailConfig.admin,
+            pass: emailConfig.password
         }
     })
 
     // 2. Configure email content.
     const mailOptions = {
-        from: process.env.EMAIL_ADMIN,
+        from: emailConfig.admin,
         to: email,
         subject: subject,
         html: body,

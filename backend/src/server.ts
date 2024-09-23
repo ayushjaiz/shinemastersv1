@@ -1,19 +1,12 @@
 import express from "express";
 import { authRoutes, bookingRouters, workerRoutes } from "./routes";
-import dotenv from "dotenv"
-
-// import { connectToDB, createUserTable } from "./config/dbConfig";
 import cors from 'cors'
-
-dotenv.config({ path: `${process.cwd()}/.env` });
+import { appPort } from "./config";
 const app = express();
 
-const port = process.env.APP_PORT || 4000;
+const port = appPort;
 
 app.use(express.urlencoded({ extended: true }));
-
-// Creates user table
-// createUserTable();
 
 app.use(express.json());
 

@@ -1,7 +1,6 @@
-import dotenv from "dotenv";
-dotenv.config({ path: `${process.cwd()}/.env` });
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import { jwtSecret } from '../config';
 
 /**
  *   Duration of the JWT token (3 days)
@@ -39,7 +38,7 @@ async function comparePassword(enteredPassword: string, storedPassword: string):
  * @returns - Generated JWT token.
  */
 function generateToken(id: number, duration: number = tokenDuration): string {
-    const token = jwt.sign({ userId: id }, `${process.env.JWT_SECRET_KEY}`, { expiresIn: tokenDuration });
+    const token = jwt.sign({ userId: id }, `${jwtSecret}`, { expiresIn: tokenDuration });
     return token;
 }
 
@@ -50,7 +49,7 @@ function generateToken(id: number, duration: number = tokenDuration): string {
  * @returns user ID extracted from the token.
  */
 function verifyToken(token: string): number {
-    const { userId } = jwt.verify(token, `${process.env.JWT_SECRET_KEY}`) as { userId: number };
+    const { userId } = jwt.verify(token, `${jwtSecret}`) as { userId: number };
     return userId;
 }
 
