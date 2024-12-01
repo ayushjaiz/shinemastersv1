@@ -1,8 +1,3 @@
-import * as dotenv from 'dotenv';
-
-// Load environment variables from .env file
-dotenv.config();
-
 export const appPort = parseInt(process.env.APP_PORT || '4000', 10);
 export const databaseUrl = process.env.DATABASE_URL;
 export const jwtSecret = process.env.JWT_SECRET;
@@ -19,7 +14,8 @@ export const cloudinaryConfig = {
 };
 
 export const redisConfig = {
-    password: process.env.REDIS_PASSWORD,
-    host: process.env.REDIS_HOST,
-    port: parseInt(process.env.REDIS_PORT || '0', 10),
+    // password: process.env.REDIS_PASSWORD,
+    // host: process.env.REDIS_HOST,
+    // port: parseInt(process.env.REDIS_PORT || '0', 10),
+    url: process.env.REDIS_URL
 };

@@ -1,6 +1,16 @@
 import nodemailer from 'nodemailer';
 import { emailConfig } from '../config';
 
+// 1. create an email transporter.
+// SMTP (Simple Mail Transfer Protocol)
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: emailConfig.admin,
+        pass: emailConfig.password
+    }
+})
+
 /**
  * Sends an email using Nodemailer transporter.
  * @param {string} email - Recipient email address.
@@ -8,16 +18,6 @@ import { emailConfig } from '../config';
  * @param {string} body - HTML body of the email.
  */
 async function sendEmail({ email, subject, body }: { email: string, subject: string, body: string }): Promise<void> {
-    // 1. create an email transporter.
-    // SMTP (Simple Mail Transfer Protocol)
-    const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: emailConfig.admin,
-            pass: emailConfig.password
-        }
-    })
-
     // 2. Configure email content.
     const mailOptions = {
         from: emailConfig.admin,
