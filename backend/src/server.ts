@@ -1,3 +1,6 @@
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 import express from "express";
 import { authRoutes, bookingRouters, workerRoutes } from "./routes";
 import cors from 'cors'
