@@ -2,11 +2,7 @@ import { createClient } from 'redis';
 import { redisConfig } from '../config';
 
 const redisClient = createClient({
-    password: redisConfig.password,
-    socket: {
-        host: redisConfig.host,
-        port: redisConfig.port
-    }
+    url: redisConfig.url
 });
 
 redisClient.on('error', (err) => {
